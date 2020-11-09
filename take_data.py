@@ -24,7 +24,7 @@ def _filter_sources(path):
 
 
 def _filter_raw_data(lines):
-    return [l.strip() for l in lines if l.startswith('№') or re.compile(r'^(\d+,\d+\s)+$').match(l)]
+    return [l.strip() for l in lines if l.startswith('№') or re.compile(r'^(-?\d+,\d+\s)+$').match(l)]
 
 
 def _parse_file(file):
