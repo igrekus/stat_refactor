@@ -29,19 +29,21 @@ def _filter_sources(path):
     return filtered
 
 
+def _parse_file(file):
+    data_list = {}
+    with open(file, 'r') as f:
+        for line in f:
+            x = checkline(line.strip())
+            if x:
+                data_list[x[0]] = x[1]
+    return data_list
+
+
 def parse_raw_data(path):
     data_list_amp = {}
     for file in _filter_sources(path):
-        data_list = {}
-        with open(file, 'r') as f:
-            for line in f:
-                line = line.strip()
-                # print(line)
-                x = checkline(line)
-                if x:
-                    data_list[x[0]] = x[1]
+        data_list = _parse_file(file)
         data_list_amp[file] = data_list
-
     return data_list_amp
 
 
