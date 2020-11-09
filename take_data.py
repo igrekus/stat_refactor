@@ -4,12 +4,7 @@ import re
 
 def checkline(line):
     #  Шапка: (№); (f, MHz); (P, dBm); (IG, mA); (ID, A);	(Gain, dB); (КПД, %); (Pвых, W).
-    work = line.replace(',', '.').split('\t')
-
-    if not work[0].split('.')[0].isdecimal():
-        return False
-
-    index, *data = work
+    index, *data = line.replace(',', '.').split('\t')
     index = int(float(index))
 
     freq = round(float(data[0]) / 1E+09, 2)
@@ -38,8 +33,7 @@ def _parse_file(file):
         raw_header, *raw_data = _filter_raw_data(f.readlines())
         for line in raw_data:
             x = checkline(line)
-            if x:
-                data_list[x[0]] = x[1]
+            data_list[x[0]] = x[1]
     return data_list
 
 
