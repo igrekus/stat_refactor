@@ -3,7 +3,7 @@ import openpyxl as xl
 import os
 
 print(os.listdir())
-data_txt = td.take_data_txt()
+data_txt = td.parse_raw_data()
 # data_excel = td.take_data_exel()
 cap_name = '№	f, MHz	P, dBm	IG, mA	ID, A	Gain, dB	КПД, %	Pвых, W'.split('\t')
 

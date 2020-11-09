@@ -20,27 +20,20 @@ def checkline(line):
     return False
 
 
-def take_data_txt():
-    if  'dates' not in os.getcwd():
-        os.chdir('dates')
-        Datas = os.listdir()
-
-    else:
-        Datas = os.listdir()
-
-
+def parse_raw_data(path):
+    files = os.listdir(path)
 
     data_list_amp = {}
-    for i in Datas:
+    for file in files:
         data_list = {}
-        with open(i, 'r') as f:
+        with open(os.path.join(path, file), 'r') as f:
             for line in f:
                 line = line.strip()
                 # print(line)
                 x = checkline(line)
                 if x:
                     data_list[x[0]] = x[1]
-        data_list_amp[i] = data_list
+        data_list_amp[file] = data_list
 
     return data_list_amp
 
