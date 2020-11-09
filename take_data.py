@@ -20,13 +20,20 @@ def checkline(line):
     return False
 
 
-def parse_raw_data(path):
-    files = os.listdir(path)
+def _filter_sources(path):
+    filtered = []
+    for file in os.listdir(path):
+        joined = os.path.join(path, file)
+        if os.path.isfile(joined) and joined.endswith('.txt'):
+            filtered.append(joined)
+    return filtered
 
+
+def parse_raw_data(path):
     data_list_amp = {}
-    for file in files:
+    for file in _filter_sources(path):
         data_list = {}
-        with open(os.path.join(path, file), 'r') as f:
+        with open(file, 'r') as f:
             for line in f:
                 line = line.strip()
                 # print(line)
@@ -36,7 +43,6 @@ def parse_raw_data(path):
         data_list_amp[file] = data_list
 
     return data_list_amp
-
 
 
 # x = take_data()
