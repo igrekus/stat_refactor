@@ -29,10 +29,15 @@ def _filter_sources(path):
     return filtered
 
 
+def _filter_raw_data(lines):
+    return [l.strip() for l in lines if l.startswith('№') or re.compile(r'^(\d+,\d+\s)+$').match(l)]
+
+
 def _parse_file(file):
     data_list = {}
-    with open(file, 'r') as f:
-        for line in f:
+    with open(file, 'rt', encoding='utf-8') as f:
+        raw_header, *raw_data = _filter_raw_data(f.readlines())
+        for line in raw_data:
             x = checkline(line.strip())
             if x:
                 data_list[x[0]] = x[1]
