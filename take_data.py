@@ -1,23 +1,22 @@
 import os
+import re
 
 
 def checkline(line):
     #  Шапка: (№); (f, MHz); (P, dBm); (IG, mA); (ID, A);	(Gain, dB); (КПД, %); (Pвых, W).
     work = line.replace(',', '.').split('\t')
-    work = line.split('	')
 
-    if work[0].split('.')[0]. isdecimal( ):
-        number = int(work[0].split('.')[0])
-        data_line = [round(int(work[1].split('.')[0])/1E+09 , 2),
-                     round(float(work[2]), 3),
-                     float(work[3]),
-                     float(work[4]),
-                     float(work[5]),
-                     float(work[6]),
-                     float(work[7])]
-        # print([number, data_line])
-        return [number, data_line]
-    return False
+    if not work[0].split('.')[0].isdecimal():
+        return False
+
+    index, *data = work
+    index = int(float(index))
+
+    freq = round(float(data[0]) / 1E+09, 2)
+    power = round(float(data[1]), 3)
+    values = [freq, power] + [float(v) for v in data[2:]]
+
+    return [index, values]
 
 
 def _filter_sources(path):
