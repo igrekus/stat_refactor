@@ -3,7 +3,7 @@ import os
 
 def checkline(line):
     #  Шапка: (№); (f, MHz); (P, dBm); (IG, mA); (ID, A);	(Gain, dB); (КПД, %); (Pвых, W).
-    line = line.replace(',', '.')
+    work = line.replace(',', '.').split('\t')
     work = line.split('	')
 
     if work[0].split('.')[0]. isdecimal( ):
@@ -38,7 +38,7 @@ def _parse_file(file):
     with open(file, 'rt', encoding='utf-8') as f:
         raw_header, *raw_data = _filter_raw_data(f.readlines())
         for line in raw_data:
-            x = checkline(line.strip())
+            x = checkline(line)
             if x:
                 data_list[x[0]] = x[1]
     return data_list
