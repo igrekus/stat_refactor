@@ -7,8 +7,6 @@ from take_data import parse_raw_data
 
 
 def enter_data_to_excel(parsed_data, export_folder='excel'):
-    cap_name = '№	f, MHz	P, dBm	IG, mA	ID, A	Gain, dB	КПД, %	Pвых, W'.split('\t')
-
     for file_name, file_data in parsed_data.items():
         out_file = file_name.split('\\')[-1][:-4]
 
@@ -21,7 +19,7 @@ def enter_data_to_excel(parsed_data, export_folder='excel'):
         cap = False  # Наличие шапки(в первую строку)
         if not cap:
             for block in range(1, 9):
-                ws.cell(1, block, cap_name[block - 1])
+                ws.cell(1, block, (['№'] + file_data['header'])[block - 1])
 
         for number, d in enumerate(file_data['data']):
             ws.cell(int(number) + 2, 1, number + 1)
