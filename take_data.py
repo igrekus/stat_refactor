@@ -25,17 +25,13 @@ def _filter_raw_data(lines):
 def _parse_file(file):
     with open(file, 'rt', encoding='utf-8') as f:
         raw_header, *raw_data = _filter_raw_data(f.readlines())
-    return [str(el) for el in raw_header.split('\t')[1:]], [_parse_line(line) for line in raw_data]
+    return {'header': [str(el) for el in raw_header.split('\t')[1:]], 'data': [_parse_line(line) for line in raw_data]}
 
 
 def parse_raw_data(path):
     data_list_amp = {}
     for file in _filter_sources(path):
-        header, data_list = _parse_file(file)
-        data_list_amp[file] = {
-            'header': header,
-            'data': data_list
-        }
+        data_list_amp[file] = _parse_file(file)
     return data_list_amp
 
 
