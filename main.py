@@ -17,10 +17,7 @@ def enter_data_to_excel(parsed_data, export_folder='excel'):
         ws.append(['№'] + file_data['header'] + ['max number'] + [len(file_data['data'])])
 
         for number, d in enumerate(file_data['data']):
-            ws.cell(int(number) + 2, 1, number + 1)
-
-            for x_instr in range(1, 8):
-                ws.cell(int(number) + 2, x_instr + 1, d[x_instr - 1])
+            ws.append([number] + d)
 
         wb.save(f'{os.path.join(export_folder, out_file)}.xlsx')
         wb.close()
