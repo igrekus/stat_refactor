@@ -1,3 +1,4 @@
+import os
 import sys
 
 import openpyxl as xl
@@ -5,15 +6,18 @@ import openpyxl as xl
 from take_data import parse_raw_data
 
 
-def enter_data_to_excel(parsed_data):
+def enter_data_to_excel(parsed_data, export_folder='excel'):
     cap_name = '№	f, MHz	P, dBm	IG, mA	ID, A	Gain, dB	КПД, %	Pвых, W'.split('\t')
 
     for file_name, file_data in parsed_data.items():
-        print(file_name[:-4], file_data)
+        out_file = file_name.split('\\')[-1][:-4]
+
+        print(out_file, file_data)
 
         wb = xl.Workbook()
         ws = wb.active
-        wb.title = file_name[:-4]
+        wb.title = out_file
+
         cap = False  # Наличие шапки(в первую строку)
         for block in range(1, 9):
             if not cap:
@@ -27,7 +31,7 @@ def enter_data_to_excel(parsed_data):
 
         ws.cell(1, 9, "max number")
         ws.cell(1, 10, number)
-        wb.save(file_name[:-4] + '.xlsx')
+        wb.save(f'{os.path.join(export_folder, out_file)}.xlsx')
         wb.close()
 
 
