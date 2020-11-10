@@ -4,14 +4,12 @@ import re
 
 def checkline(line):
     #  Шапка: (№); (f, MHz); (P, dBm); (IG, mA); (ID, A);	(Gain, dB); (КПД, %); (Pвых, W).
-    index, *data = line.replace(',', '.').split('\t')
-    index = int(float(index))
+    data = line.replace(',', '.').split('\t')[1:]
 
     freq = round(float(data[0]) / 1E+09, 2)
     power = round(float(data[1]), 3)
-    values = [freq, power] + [float(v) for v in data[2:]]
 
-    return [index, values]
+    return [freq, power] + [float(v) for v in data[2:]]
 
 
 def _filter_sources(path):
@@ -31,9 +29,8 @@ def _parse_file(file):
     data_list = {}
     with open(file, 'rt', encoding='utf-8') as f:
         raw_header, *raw_data = _filter_raw_data(f.readlines())
-        for line in raw_data:
-            x = checkline(line)
-            data_list[x[0]] = x[1]
+        for idx, line in enumerate(raw_data):
+            data_list[idx + 1] = checkline(line)
     return data_list
 
 
