@@ -24,13 +24,13 @@ def enter_data_to_excel(parsed_data, export_folder='excel'):
                 ws.cell(1, block, cap_name[block - 1])
 
         for number, d in enumerate(file_data['data']):
-            ws.cell(int(number) + 2, 1, number)
+            ws.cell(int(number) + 2, 1, number + 1)
 
             for x_instr in range(1, 8):
                 ws.cell(int(number) + 2, x_instr + 1, d[x_instr - 1])
 
         ws.cell(1, 9, "max number")
-        ws.cell(1, 10, number)
+        ws.cell(1, 10, number + 1)
         wb.save(f'{os.path.join(export_folder, out_file)}.xlsx')
         wb.close()
 
