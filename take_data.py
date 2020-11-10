@@ -2,14 +2,11 @@ import os
 import re
 
 
-def checkline(line):
-    #  Шапка: (№); (f, MHz); (P, dBm); (IG, mA); (ID, A);	(Gain, dB); (КПД, %); (Pвых, W).
+def _parse_line(line):
+    # return normalized data raw
+    # freq in GHz; pow rounded to 3rd place; the rest of the data as is
     data = line.replace(',', '.').split('\t')[1:]
-
-    freq = round(float(data[0]) / 1E+09, 2)
-    power = round(float(data[1]), 3)
-
-    return [freq, power] + [float(v) for v in data[2:]]
+    return [round(float(data[0]) / 1E+09, 2), round(float(data[1]), 3)] + [float(v) for v in data[2:]]
 
 
 def _filter_sources(path):
@@ -28,7 +25,7 @@ def _filter_raw_data(lines):
 def _parse_file(file):
     with open(file, 'rt', encoding='utf-8') as f:
         raw_header, *raw_data = _filter_raw_data(f.readlines())
-    return [str(el) for el in raw_header.split('\t')], {idx + 1: checkline(line) for idx, line in enumerate(raw_data)}
+    return [str(el) for el in raw_header.split('\t')], {idx + 1: _parse_line(line) for idx, line in enumerate(raw_data)}
 
 
 def parse_raw_data(path):
