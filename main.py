@@ -16,10 +16,10 @@ def enter_data_to_excel(parsed_data, export_folder='excel'):
         ws = wb.active
         wb.title = out_file
 
-        cap = False  # Наличие шапки(в первую строку)
-        if not cap:
-            for block in range(1, 9):
-                ws.cell(1, block, (['№'] + file_data['header'])[block - 1])
+        for block in range(1, 9):
+            ws.cell(1, block, (['№'] + file_data['header'])[block - 1])
+        ws.cell(1, 9, "max number")
+        ws.cell(1, 10, len(file_data['data']))
 
         for number, d in enumerate(file_data['data']):
             ws.cell(int(number) + 2, 1, number + 1)
@@ -27,8 +27,6 @@ def enter_data_to_excel(parsed_data, export_folder='excel'):
             for x_instr in range(1, 8):
                 ws.cell(int(number) + 2, x_instr + 1, d[x_instr - 1])
 
-        ws.cell(1, 9, "max number")
-        ws.cell(1, 10, number + 1)
         wb.save(f'{os.path.join(export_folder, out_file)}.xlsx')
         wb.close()
 
