@@ -10,8 +10,6 @@ def enter_data_to_excel(parsed_data, export_folder='excel'):
     for file_name, file_data in parsed_data.items():
         out_file = file_name.split('\\')[-1][:-4]
 
-        print(out_file, file_data)
-
         wb = xl.Workbook()
         ws = wb.active
         wb.title = out_file
