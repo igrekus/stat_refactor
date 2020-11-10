@@ -19,8 +19,8 @@ def enter_data_to_excel(parsed_data, export_folder='excel'):
         wb.title = out_file
 
         cap = False  # Наличие шапки(в первую строку)
-        for block in range(1, 9):
-            if not cap:
+        if not cap:
+            for block in range(1, 9):
                 ws.cell(1, block, cap_name[block - 1])
 
         for number, d in enumerate(file_data['data']):
