@@ -29,10 +29,7 @@ def _parse_file(file):
 
 
 def parse_raw_data(path):
-    data_list_amp = {}
-    for file in _filter_sources(path):
-        data_list_amp[file] = _parse_file(file)
-    return data_list_amp
+    return {file: _parse_file(file) for file in _filter_sources(path)}
 
 
 # x = take_data()
