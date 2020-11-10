@@ -6,7 +6,7 @@ import openpyxl as xl
 from take_data import parse_raw_data
 
 
-def enter_data_to_excel(parsed_data, export_folder='excel'):
+def export_to_excel(parsed_data, export_folder='excel'):
     for file_name, file_data in parsed_data.items():
         out_file = file_name.split('\\')[-1][:-4]
 
@@ -32,7 +32,7 @@ def main(args):
 
     res = parse_raw_data(path)
 
-    enter_data_to_excel(res)
+    export_to_excel(res)
 
 
 if __name__ == '__main__':
