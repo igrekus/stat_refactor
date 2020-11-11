@@ -9,7 +9,7 @@ def parse_raw_data(path):
 def _parse_file(file):
     with open(file, 'rt', encoding='utf-8') as f:
         raw_header, *raw_data = _filter_raw_data(f.readlines())
-    return {'header': [str(el) for el in raw_header.split('\t')[1:]], 'data': [_parse_line(line) for line in raw_data]}
+    return {'header': [str(el).replace('MHz', 'GHz') for el in raw_header.split('\t')[1:]], 'data': [_parse_line(line) for line in raw_data]}
 
 
 def _filter_sources(path):
