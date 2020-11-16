@@ -3,7 +3,6 @@ import os
 import openpyxl
 
 from openpyxl.chart import LineChart, Reference
-from string import ascii_uppercase
 
 
 def export_to_excel(parsed_data, export_folder='excel'):
@@ -28,9 +27,12 @@ def export_to_excel(parsed_data, export_folder='excel'):
             ws.append(row)
             ws_compiled.append(row)
 
-        wb.save(f'{os.path.join(export_folder, out_file)}.xlsx')
+        path = os.path.join(export_folder, out_file)
+        print(f'writing excel {path}')
+        wb.save(f'{path}.xlsx')
         wb.close()
 
+    print('collecting stats')
     first = next(iter(parsed_data.values()))
     freqs = [f for f, *rest in first['data']]
 
@@ -73,5 +75,6 @@ def export_to_excel(parsed_data, export_folder='excel'):
         anchor = str(Reference(ws_plots, min_row=10, min_col=col1 - 1)).replace("'Sheet'!$", '').replace('$', '')
         ws_plots.add_chart(chart, anchor=anchor)
 
+    print('writing collected sheet')
     wb_compiled.save(f'{os.path.join(export_folder, "compiled")}.xlsx')
     wb_compiled.close()
