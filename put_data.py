@@ -70,7 +70,8 @@ def export_to_excel(parsed_data, export_folder='excel'):
         chart.add_data(dt, titles_from_data=True)
         chart.set_categories(xs)
 
-        ws_plots.add_chart(chart, f'{ascii_uppercase[col1 - 1]}10')
+        anchor = str(Reference(ws_plots, min_row=10, min_col=col1 - 1)).replace("'Sheet'!$", '').replace('$', '')
+        ws_plots.add_chart(chart, anchor=anchor)
 
     wb_compiled.save(f'{os.path.join(export_folder, "compiled")}.xlsx')
     wb_compiled.close()
